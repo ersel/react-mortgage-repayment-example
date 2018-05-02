@@ -1,4 +1,5 @@
 import React from 'react';
+import calculateMonthlyRepayment from '../utils';
 
 class MortgageCalculator extends React.Component {
   constructor(props) {
@@ -8,13 +9,12 @@ class MortgageCalculator extends React.Component {
       years: 10,
       principal: 100000,
     };
-    this.handleYearsChange.bind(this);
-    this.handlePrincipalChange.bind(this);
+
     this.calculateRepayment.bind(this);
   }
 
-  handleRateChange(event) {
-    this.setState({ rate: event.target.value });
+  handleRateChange(rate) {
+    this.setState({ rate });
   }
 
   handleYearsChange(years) {
@@ -27,9 +27,8 @@ class MortgageCalculator extends React.Component {
 
   calculateRepayment() {
     const { rate, years, principal } = this.state;
-    const principalPaidPerYear = principal / years;
-    console.log(principalPaidPerYear, 'principal paid');
-    this.setState({ principalPaidPerYear });
+    const monthlyPayment = calculateMonthlyRepayment(rate, years, principal);
+    this.setState({ monthlyPayment });
   }
 
   render() {
@@ -37,7 +36,7 @@ class MortgageCalculator extends React.Component {
       <div>
         Interest Rate: <input
           value={this.state.rate}
-          onChange={this.handleRateChange}
+          onChange={event => this.handleRateChange(event.target.value)}
         /> <br />
         Repayment Period (in years): <input
           value={this.state.years}
@@ -53,7 +52,7 @@ class MortgageCalculator extends React.Component {
         >Calculate
         </button>
         <br />
-        <span>This is how much principal you'll pay per year: {this.state.principalPaidPerYear}</span>
+        <span>Monthly Repayment: {this.state.monthlyPayment}</span>
       </div>
     );
   }
