@@ -1,24 +1,8 @@
-class Shape {
-  constructor(a) {
-    this.Area = a;
-  }
-  print() {
-    console.log('Print is called from parent');
-  }
-}
+const calculateMonthlyRepayment = (rate, years, principal) => {
+  const numberOfPayments = years * 12;
+  const numerator = rate * ((Math.pow(1 + rate), numberOfPayments)); //eslint-disable-line
+  const denominator = (Math.pow((1 + rate), numberOfPayments)) - 1; //eslint-disable-line
+  return principal * (numerator / denominator);
+};
 
-class Circle extends Shape {
-  constructor(radius) {
-    this.radius = radius;
-    super(pi * radius ^ 2);
-  }
-
-  display() {
-    super.print();
-    console.log('Area of the circle:  ' + this.Area);
-  }
-}
-
-const obj = new Circle(223);
-obj.display();
-
+export default calculateMonthlyRepayment;
